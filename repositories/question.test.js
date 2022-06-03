@@ -40,4 +40,33 @@ describe('question repository', () => {
 
     expect(await questionRepo.getQuestions()).toHaveLength(2)
   })
+
+  test('should return a question', async () => {
+    const testId = faker.datatype.uuid()
+    const testQuestions = [
+      {
+        id: testId,
+        summary: 'What is my name?',
+        author: 'Jack London',
+        answers: []
+      }
+    ]
+
+    await writeFile(TEST_QUESTIONS_FILE_PATH, JSON.stringify(testQuestions))
+
+    expect(await questionRepo.getQuestionById(testId)).toStrictEqual(
+      testQuestions[0]
+    )
+  })
+
+  test('should throw an error', async () => {
+    const testId = faker.datatype.uuid()
+    const testQuestions = []
+
+    await writeFile(TEST_QUESTIONS_FILE_PATH, JSON.stringify(testQuestions))
+
+    expect(async () => {
+      await questionRepo.getQuestionById(testId)
+    }).rejects.toStrictEqual(new Error('Question not found'))
+  })
 })

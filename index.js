@@ -20,7 +20,19 @@ app.get('/questions', async (req, res) => {
   res.json(questions)
 })
 
-app.get('/questions/:questionId', (req, res) => {})
+app.get('/questions/:questionId', async (req, res) => {
+  try {
+    const { questionId } = req.params
+
+    const question = await req.repositories.questionRepo.getQuestionById(
+      questionId
+    )
+
+    res.json(question)
+  } catch (e) {
+    res.status(404).json({ error: e.message })
+  }
+})
 
 app.post('/questions', (req, res) => {})
 
