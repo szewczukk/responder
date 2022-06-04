@@ -41,6 +41,10 @@ const makeQuestionRepository = fileName => {
   const getAnswers = async questionId => {
     const question = await getQuestionById(questionId)
 
+    if (!question) {
+      return null;
+    }
+
     return question.answers
   }
 

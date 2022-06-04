@@ -58,6 +58,11 @@ app.get('/questions/:questionId/answers', async (req, res) => {
 
   const questions = await req.repositories.questionRepo.getAnswers(questionId)
 
+  if (questions === null) {
+    res.status(404).json({ error: "Not found" })
+    return
+  }
+
   res.json(questions)
 })
 
@@ -70,6 +75,11 @@ app.post('/questions/:questionId/answers', async (req, res) => {
       questionId,
       data
     )
+
+    if (!answer) {
+      res.status(404).json({ error: "Not found" })
+      return;
+    }
 
     res.json(answer)
   } catch (e) {

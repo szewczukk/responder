@@ -148,6 +148,15 @@ describe('question repository', () => {
     expect(await answerRepo.getAnswers(testId)).toHaveLength(2)
   })
 
+  test('should return null', async () => {
+    const testId = faker.datatype.uuid()
+    const testQuestions = []
+
+    await writeFile(TEST_QUESTIONS_FILE_PATH, JSON.stringify(testQuestions))
+
+    expect(await answerRepo.getAnswers(testId)).toBeNull()
+  })
+
   test('should return an answer', async () => {
     const questionId = faker.datatype.uuid()
     const answerId = faker.datatype.uuid()
