@@ -60,7 +60,16 @@ app.get('/questions/:questionId/answers', async (req, res) => {
   res.json(questions)
 })
 
-app.post('/questions/:questionId/answers', (req, res) => {})
+app.post('/questions/:questionId/answers', async (req, res) => {
+  const { questionId } = req.params
+
+  const answer = await req.repositories.answerRepo.addAnswer(
+    questionId,
+    req.body
+  )
+
+  res.json(answer)
+})
 
 app.get('/questions/:questionId/answers/:answerId', async (req, res) => {
   const { questionId, answerId } = req.params

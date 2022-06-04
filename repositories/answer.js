@@ -27,7 +27,17 @@ const makeAnswerRepository = fileName => {
     return answer
   }
 
-  const addAnswer = async (questionId, answer) => {}
+  const addAnswer = async (questionId, data) => {
+    const fileContent = await readFile(fileName, { encoding: 'utf-8' })
+    const questions = JSON.parse(fileContent)
+
+    const answer = { id: uuid.v4(), ...data }
+
+    questions.find(question => question.id === questionId).answers.push(answer)
+    await writeFile(fileName, JSON.stringify(questions))
+
+    return answer
+  }
 
   return {
     getAnswers,
