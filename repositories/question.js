@@ -26,9 +26,11 @@ const makeQuestionRepository = fileName => {
     const id = uuid.v4()
     const question = { id, ...data, answers: [] }
 
-    data.answers.forEach(answer => {
-      question.answers.push({ id: uuid.v4(), ...answer })
-    })
+    if (data.answers) {
+      data.answers.forEach(answer => {
+        question.answers.push({ id: uuid.v4(), ...answer })
+      })
+    }
 
     questions.push(question)
     await writeFile(fileName, JSON.stringify(questions))
