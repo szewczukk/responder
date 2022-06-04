@@ -1,0 +1,141 @@
+{
+  "definition": {
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Responder",
+      "version": "1.0.0"
+    },
+    "components": {
+      "requestBodies": {
+        "addQuestion": {
+          "required": "true",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateQuestion"
+              }
+            }
+          }
+        },
+        "addAnswer": {
+          "required": "true",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAnswer"
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "404": {
+          "description": "Not found"
+        },
+        "400": {
+          "description": "Wrong input"
+        },
+        "500": {
+          "description": "Internal server error"
+        }
+      },
+      "parameters": {
+        "questionId": {
+          "name": "questionId",
+          "in": "path",
+          "required": "true",
+          "schema": {
+            "type": "string"
+          }
+        },
+        "answerId": {
+          "name": "answerId",
+          "in": "path",
+          "required": "true",
+          "schema": {
+            "type": "string"
+          }
+        }
+      },
+      "schemas": {
+        "QuestionArray": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Question"
+          }
+        },
+        "AnswerArray": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Answer"
+          }
+        },
+        "CreateAnswer": {
+          "type": "object",
+          "properties": {
+            "author": {
+              "type": "string"
+            },
+            "summary": {
+              "type": "string"
+            }
+          }
+        },
+        "CreateQuestion": {
+          "type": "object",
+          "properties": {
+            "author": {
+              "type": "string"
+            },
+            "summary": {
+              "type": "string"
+            },
+            "answers": {
+              "type": "array",
+              "required": "false",
+              "items": {
+                "$ref": "#/components/schemas/CreateAnswer"
+              }
+            }
+          }
+        },
+        "Question": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "author": {
+              "type": "string"
+            },
+            "summary": {
+              "type": "string"
+            },
+            "answers": {
+              "type": "array",
+              "required": "false",
+              "items": {
+                "$ref": "#/components/schemas/Answer"
+              }
+            }
+          }
+        },
+        "Answer": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "author": {
+              "type": "string"
+            },
+            "summary": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "apis": ["./routers/*.js"]
+}

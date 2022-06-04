@@ -4,6 +4,10 @@
 
 To test the app e2e please run `npm run e2e`
 
+## API documentation
+
+To see the api's swagger documentation, run the server with `npm run start` or `npm run dev` and visit `http://localhost:3000/docs`.
+
 ## Overview and the goal
 
 This is a REST API that uses `express.js` for simple questions and answers submissions. The data is stored in the file `questions.json`. Initially, just a first few API endpoints are implemented. The goal of this exercise is to create and test the rest of the endpoints.
