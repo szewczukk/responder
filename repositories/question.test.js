@@ -68,7 +68,7 @@ describe('question repository', () => {
     expect(await questionRepo.getQuestionById(testId)).toBeNull()
   })
 
-  test('should create a new question', async () => {
+  test('should create a new question (with answers)', async () => {
     const testQuestion = {
       summary: 'What is my name?',
       author: 'Jack London',
@@ -84,6 +84,23 @@ describe('question repository', () => {
     expect(result.answers[0].summary).toBe(testQuestion.answers[0].summary)
     expect(result.answers[0].author).toBe(testQuestion.answers[0].author)
     expect(result.answers[0]).toHaveProperty('id')
+
+    expect(await questionRepo.getQuestions()).toStrictEqual([result])
+  })
+
+  test('should create a new question (without answers)', async () => {
+    const testQuestion = {
+      summary: 'What is my name?',
+      author: 'Jack London',
+    }
+
+    await writeFile(TEST_QUESTIONS_FILE_PATH, JSON.stringify([]))
+
+    const result = await questionRepo.addQuestion(testQuestion)
+    expect(result.summary).toBe(testQuestion.summary)
+    expect(result.author).toBe(testQuestion.author)
+    expect(result).toHaveProperty('id')
+    expect(result.answers).toHaveLength(0)
 
     expect(await questionRepo.getQuestions()).toStrictEqual([result])
   })
