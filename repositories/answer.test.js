@@ -58,4 +58,61 @@ describe('question repository', () => {
 
     expect(await answerRepo.getAnswers(testId)).toHaveLength(2)
   })
+
+  test('should return an answer', async () => {
+    const questionId = faker.datatype.uuid()
+    const answerId = faker.datatype.uuid()
+    const testQuestions = [
+      {
+        id: questionId,
+        summary: 'What is my name?',
+        author: 'Jack London',
+        answers: [
+          {
+            id: answerId,
+            summary: 'Jack',
+            author: 'John Doe'
+          },
+          {
+            id: faker.datatype.uuid(),
+            summary: 'Jack',
+            author: 'Jack London'
+          }
+        ]
+      }
+    ]
+
+    await writeFile(TEST_QUESTIONS_FILE_PATH, JSON.stringify(testQuestions))
+
+    expect(await answerRepo.getAnswer(questionId, answerId)).toStrictEqual(
+      testQuestions[0].answers[0]
+    )
+  })
+
+  test('should return null', async () => {
+    const questionId = faker.datatype.uuid()
+    const testQuestions = [
+      {
+        id: questionId,
+        summary: 'What is my name?',
+        author: 'Jack London',
+        answers: [
+          {
+            id: faker.datatype.uuid(),
+            summary: 'Jack',
+            author: 'John Doe'
+          },
+          {
+            id: faker.datatype.uuid(),
+            summary: 'Jack',
+            author: 'Jack London'
+          }
+        ]
+      }
+    ]
+
+    await writeFile(TEST_QUESTIONS_FILE_PATH, JSON.stringify(testQuestions))
+
+    expect(await answerRepo.getAnswer(questionId, '')).toBeNull()
+  })
 })
