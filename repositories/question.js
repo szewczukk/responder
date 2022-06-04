@@ -62,7 +62,13 @@ const makeQuestionRepository = fileName => {
 
     const answer = { id: uuid.v4(), ...data }
 
-    questions.find(question => question.id === questionId).answers.push(answer)
+    const question = questions.find(question => question.id === questionId)
+    if (!question) {
+      return null;
+    }
+
+    question.answers.push(answer)
+
     await writeFile(fileName, JSON.stringify(questions))
 
     return answer

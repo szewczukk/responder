@@ -200,4 +200,22 @@ describe('question repository', () => {
 
     expect(await questionRepo.getAnswers(testQuestionId)).toStrictEqual([result])
   })
+
+  test('should return null', async () => {
+    const testQuestions = [{
+      id: faker.datatype.uuid(),
+      summary: 'What is my name?',
+      author: 'Jack London',
+      answers: []
+    }];
+    const testAnswer = {
+      summary: "Jack",
+      author: "John Doe"
+    }
+
+    await writeFile(TEST_QUESTIONS_FILE_PATH, JSON.stringify(testQuestions))
+
+    const result = await questionRepo.addAnswer(faker.datatype.uuid(), testAnswer)
+    expect(result).toBeNull()
+  })
 })
