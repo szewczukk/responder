@@ -1,7 +1,7 @@
 const express = require('express')
 const { urlencoded, json } = require('body-parser')
 const { ValidationError } = require('joi')
-const addQuestionSchema = require('./schemas/question')
+const { answerSchema, questionSchema } = require('./schemas/question')
 const makeRepositories = require('./middleware/repositories')
 
 const STORAGE_FILE_PATH = 'questions.json'
@@ -38,7 +38,7 @@ app.get('/questions/:questionId', async (req, res) => {
 
 app.post('/questions', async (req, res) => {
   try {
-    const data = await addQuestionSchema.validateAsync(req.body)
+    const data = await questionSchema.validateAsync(req.body)
 
     const question = await req.repositories.questionRepo.addQuestion(data)
 
@@ -61,14 +61,23 @@ app.get('/questions/:questionId/answers', async (req, res) => {
 })
 
 app.post('/questions/:questionId/answers', async (req, res) => {
-  const { questionId } = req.params
+  try {
+    const { questionId } = req.params
+    const data = await answerSchema.validateAsync(req.body)
 
-  const answer = await req.repositories.questionRepo.addAnswer(
-    questionId,
-    req.body
-  )
+    const answer = await req.repositories.questionRepo.addAnswer(
+      questionId,
+      data
+    )
 
-  res.json(answer)
+    res.json(answer)
+  } catch (e) {
+    if (e instanceof ValidationError) {
+      res.status(400).json({ error: e.message })
+      return
+    }
+    res.status(500).json({ error: e.message })
+  }
 })
 
 app.get('/questions/:questionId/answers/:answerId', async (req, res) => {

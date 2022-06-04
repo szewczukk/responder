@@ -1,5 +1,5 @@
 const { ValidationError } = require('joi')
-const questionSchema = require('./question')
+const { questionSchema } = require('./question')
 
 describe('question schema', () => {
   test('should return itself (correct data) without answers', async () => {
