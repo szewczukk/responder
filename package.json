@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage=true --testPathIgnorePatterns=app.test.js",
+    "test": "npm run e2e && npm run unit",
+    "unit": "jest --coverage=true --testPathIgnorePatterns=app.test.js",
     "e2e": "cross-env FILE=questions.e2e.json jest --coverage=true app.test.js",
     "start": "cross-env FILE=questions.json node index.js",
     "format": "prettier --write .",
