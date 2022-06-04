@@ -91,7 +91,7 @@ describe('question repository', () => {
   test('should create a new question (without answers)', async () => {
     const testQuestion = {
       summary: 'What is my name?',
-      author: 'Jack London',
+      author: 'Jack London'
     }
 
     await writeFile(TEST_QUESTIONS_FILE_PATH, JSON.stringify([]))
@@ -206,15 +206,17 @@ describe('question repository', () => {
 
   test('should return created element', async () => {
     const testQuestionId = faker.datatype.uuid()
-    const testQuestions = [{
-      id: testQuestionId,
-      summary: 'What is my name?',
-      author: 'Jack London',
-      answers: []
-    }];
+    const testQuestions = [
+      {
+        id: testQuestionId,
+        summary: 'What is my name?',
+        author: 'Jack London',
+        answers: []
+      }
+    ]
     const testAnswer = {
-      summary: "Jack",
-      author: "John Doe"
+      summary: 'Jack',
+      author: 'John Doe'
     }
 
     await writeFile(TEST_QUESTIONS_FILE_PATH, JSON.stringify(testQuestions))
@@ -224,24 +226,31 @@ describe('question repository', () => {
     expect(result.author).toBe(testAnswer.author)
     expect(result).toHaveProperty('id')
 
-    expect(await questionRepo.getAnswers(testQuestionId)).toStrictEqual([result])
+    expect(await questionRepo.getAnswers(testQuestionId)).toStrictEqual([
+      result
+    ])
   })
 
   test('should return null', async () => {
-    const testQuestions = [{
-      id: faker.datatype.uuid(),
-      summary: 'What is my name?',
-      author: 'Jack London',
-      answers: []
-    }];
+    const testQuestions = [
+      {
+        id: faker.datatype.uuid(),
+        summary: 'What is my name?',
+        author: 'Jack London',
+        answers: []
+      }
+    ]
     const testAnswer = {
-      summary: "Jack",
-      author: "John Doe"
+      summary: 'Jack',
+      author: 'John Doe'
     }
 
     await writeFile(TEST_QUESTIONS_FILE_PATH, JSON.stringify(testQuestions))
 
-    const result = await questionRepo.addAnswer(faker.datatype.uuid(), testAnswer)
+    const result = await questionRepo.addAnswer(
+      faker.datatype.uuid(),
+      testAnswer
+    )
     expect(result).toBeNull()
   })
 })

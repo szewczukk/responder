@@ -30,8 +30,8 @@ app.get('/questions/:questionId', async (req, res) => {
   )
 
   if (!question) {
-    res.status(404).json({ error: "Not found" })
-    return;
+    res.status(404).json({ error: 'Not found' })
+    return
   }
 
   res.json(question)
@@ -59,7 +59,7 @@ app.get('/questions/:questionId/answers', async (req, res) => {
   const questions = await req.repositories.questionRepo.getAnswers(questionId)
 
   if (questions === null) {
-    res.status(404).json({ error: "Not found" })
+    res.status(404).json({ error: 'Not found' })
     return
   }
 
@@ -77,8 +77,8 @@ app.post('/questions/:questionId/answers', async (req, res) => {
     )
 
     if (!answer) {
-      res.status(404).json({ error: "Not found" })
-      return;
+      res.status(404).json({ error: 'Not found' })
+      return
     }
 
     res.json(answer)
@@ -100,8 +100,8 @@ app.get('/questions/:questionId/answers/:answerId', async (req, res) => {
   )
 
   if (!answer) {
-    res.status(404).json({ error: "Not found" })
-    return;
+    res.status(404).json({ error: 'Not found' })
+    return
   }
 
   res.json(answer)

@@ -42,7 +42,7 @@ const makeQuestionRepository = fileName => {
     const question = await getQuestionById(questionId)
 
     if (!question) {
-      return null;
+      return null
     }
 
     return question.answers
@@ -68,7 +68,7 @@ const makeQuestionRepository = fileName => {
 
     const question = questions.find(question => question.id === questionId)
     if (!question) {
-      return null;
+      return null
     }
 
     question.answers.push(answer)

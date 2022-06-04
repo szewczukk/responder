@@ -12,11 +12,7 @@ const answerSchema = Joi.object({
 const questionSchema = Joi.object({
   ...author,
   summary: Joi.string().min(1).required().pattern(/[?]$/),
-  answers: Joi.array()
-    .optional()
-    .items(
-      answerSchema
-    )
+  answers: Joi.array().optional().items(answerSchema)
 })
 
 module.exports = { questionSchema, answerSchema }
