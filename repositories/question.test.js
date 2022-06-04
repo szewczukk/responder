@@ -177,4 +177,27 @@ describe('question repository', () => {
 
     expect(await answerRepo.getAnswerById(questionId, answerId)).toBeNull()
   })
+
+  test('should return created element', async () => {
+    const testQuestionId = faker.datatype.uuid()
+    const testQuestions = [{
+      id: testQuestionId,
+      summary: 'What is my name?',
+      author: 'Jack London',
+      answers: []
+    }];
+    const testAnswer = {
+      summary: "Jack",
+      author: "John Doe"
+    }
+
+    await writeFile(TEST_QUESTIONS_FILE_PATH, JSON.stringify(testQuestions))
+
+    const result = await questionRepo.addAnswer(testQuestionId, testAnswer)
+    expect(result.summary).toBe(testAnswer.summary)
+    expect(result.author).toBe(testAnswer.author)
+    expect(result).toHaveProperty('id')
+
+    expect(await questionRepo.getAnswers(testQuestionId)).toStrictEqual([result])
+  })
 })
