@@ -1,5 +1,7 @@
 const express = require('express')
 const { urlencoded, json } = require('body-parser')
+const { ValidationError } = require('joi')
+const addQuestionSchema = require('./schemas/question')
 const makeRepositories = require('./middleware/repositories')
 
 const STORAGE_FILE_PATH = 'questions.json'
@@ -34,7 +36,21 @@ app.get('/questions/:questionId', async (req, res) => {
   }
 })
 
-app.post('/questions', (req, res) => {})
+app.post('/questions', async (req, res) => {
+  try {
+    const data = await addQuestionSchema.validateAsync(req.body)
+
+    const question = await req.repositories.questionRepo.addQuestion(data)
+
+    res.json(question)
+  } catch (e) {
+    if (e instanceof ValidationError) {
+      res.status(400).json({ error: e.message })
+      return
+    }
+    res.status(500).json({ error: e.message })
+  }
+})
 
 app.get('/questions/:questionId/answers', (req, res) => {})
 

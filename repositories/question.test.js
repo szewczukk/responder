@@ -59,14 +59,23 @@ describe('question repository', () => {
     )
   })
 
-  test('should throw an error', async () => {
-    const testId = faker.datatype.uuid()
-    const testQuestions = []
+  test('should create a new question', async () => {
+    const testQuestion = {
+      summary: 'What is my name?',
+      author: 'Jack London',
+      answers: [{ author: 'John Doe', summary: 'Jack' }]
+    }
 
-    await writeFile(TEST_QUESTIONS_FILE_PATH, JSON.stringify(testQuestions))
+    await writeFile(TEST_QUESTIONS_FILE_PATH, JSON.stringify([]))
 
-    expect(async () => {
-      await questionRepo.getQuestionById(testId)
-    }).rejects.toStrictEqual(new Error('Question not found'))
+    const result = await questionRepo.addQuestion(testQuestion)
+    expect(result.summary).toBe(testQuestion.summary)
+    expect(result.author).toBe(testQuestion.author)
+    expect(result).toHaveProperty('id')
+    expect(result.answers[0].summary).toBe(testQuestion.answers[0].summary)
+    expect(result.answers[0].author).toBe(testQuestion.answers[0].author)
+    expect(result.answers[0]).toHaveProperty('id')
+
+    expect(await questionRepo.getQuestions()).toStrictEqual([result])
   })
 })
