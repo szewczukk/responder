@@ -52,7 +52,13 @@ app.post('/questions', async (req, res) => {
   }
 })
 
-app.get('/questions/:questionId/answers', (req, res) => {})
+app.get('/questions/:questionId/answers', async (req, res) => {
+  const { questionId } = req.params
+
+  const questions = await req.repositories.answerRepo.getAnswers(questionId)
+
+  res.json(questions)
+})
 
 app.post('/questions/:questionId/answers', (req, res) => {})
 
