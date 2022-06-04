@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env FILE=questions.e2e.json jest --coverage=true",
+    "test": "jest --coverage=true --testPathIgnorePatterns=app.test.js",
+    "e2e": "cross-env FILE=questions.e2e.json jest --coverage=true app.test.js",
     "start": "cross-env FILE=questions.json node index.js",
     "format": "prettier --write .",
     "dev": "cross-env FILE=questions.json nodemon index.js"
@@ -20,7 +21,8 @@
     "eslint-plugin-jest": "^26.4.6",
     "jest": "^28.1.0",
     "nodemon": "^2.0.16",
-    "prettier": "^2.6.2"
+    "prettier": "^2.6.2",
+    "supertest": "^6.2.3"
   },
   "dependencies": {
     "body-parser": "^1.20.0",
