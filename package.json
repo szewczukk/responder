@@ -4,16 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage=true",
-    "start": "node index.js",
+    "test": "cross-env FILE=questions.e2e.json jest --coverage=true",
+    "start": "cross-env FILE=questions.json node index.js",
     "format": "prettier --write .",
-    "dev": "nodemon index.js"
+    "dev": "cross-env FILE=questions.json nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@faker-js/faker": "^7.1.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.16.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-jest": "^26.4.6",
