@@ -60,6 +60,14 @@ describe('question repository', () => {
     )
   })
 
+  test('should return null', async () => {
+    const testId = faker.datatype.uuid()
+
+    await writeFile(TEST_QUESTIONS_FILE_PATH, JSON.stringify([]))
+
+    expect(await questionRepo.getQuestionById(testId)).toBeNull()
+  })
+
   test('should create a new question', async () => {
     const testQuestion = {
       summary: 'What is my name?',
@@ -148,35 +156,25 @@ describe('question repository', () => {
 
     await writeFile(TEST_QUESTIONS_FILE_PATH, JSON.stringify(testQuestions))
 
-    expect(await answerRepo.getAnswer(questionId, answerId)).toStrictEqual(
+    expect(await answerRepo.getAnswerById(questionId, answerId)).toStrictEqual(
       testQuestions[0].answers[0]
     )
   })
 
   test('should return null', async () => {
     const questionId = faker.datatype.uuid()
+    const answerId = faker.datatype.uuid()
     const testQuestions = [
       {
         id: questionId,
         summary: 'What is my name?',
         author: 'Jack London',
-        answers: [
-          {
-            id: faker.datatype.uuid(),
-            summary: 'Jack',
-            author: 'John Doe'
-          },
-          {
-            id: faker.datatype.uuid(),
-            summary: 'Jack',
-            author: 'Jack London'
-          }
-        ]
+        answers: []
       }
     ]
 
     await writeFile(TEST_QUESTIONS_FILE_PATH, JSON.stringify(testQuestions))
 
-    expect(await answerRepo.getAnswer(questionId, '')).toBeNull()
+    expect(await answerRepo.getAnswerById(questionId, answerId)).toBeNull()
   })
 })

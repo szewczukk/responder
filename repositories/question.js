@@ -14,7 +14,7 @@ const makeQuestionRepository = fileName => {
 
     const question = questions.find(question => question.id === questionId)
     if (!question) {
-      throw new Error('Question not found')
+      return null
     }
 
     return question
@@ -42,7 +42,7 @@ const makeQuestionRepository = fileName => {
     return question.answers
   }
 
-  const getAnswer = async (questionId, answerId) => {
+  const getAnswerById = async (questionId, answerId) => {
     const question = await getQuestionById(questionId)
 
     const answer = question.answers.find(answer => answer.id === answerId)
@@ -71,7 +71,7 @@ const makeQuestionRepository = fileName => {
     getQuestionById,
     addQuestion,
     getAnswers,
-    getAnswer,
+    getAnswerById,
     addAnswer
   }
 }

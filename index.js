@@ -83,7 +83,7 @@ app.post('/questions/:questionId/answers', async (req, res) => {
 app.get('/questions/:questionId/answers/:answerId', async (req, res) => {
   const { questionId, answerId } = req.params
 
-  const question = await req.repositories.questionRepo.getAnswer(
+  const question = await req.repositories.questionRepo.getAnswerById(
     questionId,
     answerId
   )
